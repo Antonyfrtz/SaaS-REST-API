@@ -4,5 +4,6 @@ import "controllers"
 import "jquery"
 import "jquery_ujs"
 import "bootstrap"
+import "posts/style"
 //= require jquery
 //= require bootstrap-sprockets
