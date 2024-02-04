@@ -12,3 +12,5 @@ pin "bootstrap", to: "bootstrap.min.js", preload: true
 
 
 pin_all_from "app/javascript/controllers", under: "controllers"
+pin_all_from "app/javascript/posts", under: "posts"
+
