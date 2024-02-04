@@ -5,5 +5,6 @@ import "jquery"
 import "jquery_ujs"
 import "bootstrap"
 import "posts/style"
+import "posts/modal"
 //= require jquery
 //= require bootstrap-sprockets
