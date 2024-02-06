@@ -18,6 +18,10 @@ module PostsHelper
   
     def no_posts_partial_path
         @posts.empty? ? 'posts/branch/no_posts' : 'shared/empty_partial'
-      end
+    end
+
+    def post_format_partial_path
+      current_page?(root_path) ? 'posts/post/home_page' : 'posts/post/branch_page'
+    end
     
   end
