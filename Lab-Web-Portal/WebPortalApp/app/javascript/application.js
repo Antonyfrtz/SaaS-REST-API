@@ -6,5 +6,6 @@ import "jquery_ujs"
 import "bootstrap"
 import "posts/style"
 import "posts/modal"
+import "posts/infinite_scroll"
 //= require jquery
 //= require bootstrap-sprockets
