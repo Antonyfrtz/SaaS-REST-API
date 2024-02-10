@@ -7,5 +7,7 @@ import "bootstrap"
 import "posts/style"
 import "posts/modal"
 import "posts/infinite_scroll"
+import "./messages/position_and_visibility"
+import "./messages/toggle_window"
 //= require jquery
 //= require bootstrap-sprockets
