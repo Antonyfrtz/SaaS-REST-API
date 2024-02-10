@@ -7,8 +7,9 @@ import "bootstrap"
 import "posts/style"
 import "posts/modal"
 import "posts/infinite_scroll"
+import "channels/private/conversation_channel"
 import "./messages/position_and_visibility"
 import "./messages/toggle_window"
 import "./messages/messages_infinite_scroll.js"
 //= require jquery
-//= require bootstrap-sprockets
+//= require bootstrap-sprocketsimport "channels"
