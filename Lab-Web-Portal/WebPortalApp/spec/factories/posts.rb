@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :post do
-    title {'test post'}
-    content {'test content'}
+    title {'test post for testing'}
+    content {'test content wow such nice tests'}
     user
     category
   end
