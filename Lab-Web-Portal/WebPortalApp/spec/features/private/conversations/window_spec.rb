@@ -42,4 +42,18 @@ RSpec.feature "window", :type => :feature do
     find('.conversation-window .conversation-heading').click
     expect(page).to have_css('.panel-body', visible: false)
   end
+
+  scenario "Mark unseen messages as seen when opening a conversation window" do
+    # open_window
+    # expect(page).to have_selector('unseen')
+    # find('.panel-body').click
+  end
+
+  scenario "Mark unseen messages as seen when clicking directly on a conversation window" do
+    # let(:user2) { create(:user) }
+    # create(:private_message, conversation_id: conversation.id, user_id: user2.id)
+    # find('.conversation-window .conversation-heading').click
+    # find('.panel-body').click
+  end
+
 end
