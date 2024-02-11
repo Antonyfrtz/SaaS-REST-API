@@ -41,6 +41,7 @@ end
 RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include FactoryBot::Syntax::Methods
+  Capybara.default_max_wait_time = 6
   Capybara.javascript_driver = :selenium_chrome
   Capybara.server = :puma
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
