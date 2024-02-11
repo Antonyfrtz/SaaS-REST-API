@@ -2,11 +2,15 @@ require "rails_helper"
 
 RSpec.feature "Visit single post", :type => :feature do
   let(:user) { create(:user) }
-  let(:post) { create(:post) }
+  let(:category) { Category.create(branch: 'hobby', name: 'Arts') }
+  let(:post) { create(:post, user: user, category: category) }
 
-  scenario "User goes to a single post from the home page", js: true do
+  before do
     post
     visit root_path
+  end
+
+  scenario "User goes to a single post from the home page", js: true do
     page.find(".single-post-card").click
     expect(page).to have_selector('body .modal')
     page.find('.interested a').click
