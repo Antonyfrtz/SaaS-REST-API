@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.feature "window", :type => :feature do
+  before(:each) do 
+    conversation
+    create(:private_message, conversation_id: conversation.id, user_id: user.id)
+  end
   let(:user) { create(:user) }
   let(:conversation) { create(:private_conversation, sender_id: user.id) }
   let(:open_window) do
@@ -9,10 +13,6 @@ RSpec.feature "window", :type => :feature do
     page.find('#conversations-menu .dropdown-toggle').click
     page.find('#conversations-menu li a').click
     expect(page).to have_selector('.conversation-window')
-  end
-  before(:each) do 
-    conversation
-    create(:private_message, conversation_id: conversation.id, user_id: user.id)
   end
 
   scenario 'user opens a conversation', js: true do
@@ -42,4 +42,18 @@ RSpec.feature "window", :type => :feature do
     find('.conversation-window .conversation-heading').click
     expect(page).to have_css('.panel-body', visible: false)
   end
+
+  scenario "Mark unseen messages as seen when opening a conversation window" do
+    # open_window
+    # expect(page).to have_selector('unseen')
+    # find('.panel-body').click
+  end
+
+  scenario "Mark unseen messages as seen when clicking directly on a conversation window" do
+    # let(:user2) { create(:user) }
+    # create(:private_message, conversation_id: conversation.id, user_id: user2.id)
+    # find('.conversation-window .conversation-heading').click
+    # find('.panel-body').click
+  end
+
 end
