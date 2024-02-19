@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.2.2"
+ruby "3.3.0"
 
 gem 'rspec-rails', '~> 3.6'
 gem 'factory_bot_rails'
