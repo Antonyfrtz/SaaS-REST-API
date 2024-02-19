@@ -1,6 +1,10 @@
 require "rails_helper"
 
 RSpec.feature "window", :type => :feature do
+  before(:each) do 
+    conversation
+    create(:private_message, conversation_id: conversation.id, user_id: user.id)
+  end
   let(:user) { create(:user) }
   let(:conversation) { create(:private_conversation, sender_id: user.id) }
   let(:open_window) do
@@ -9,10 +13,6 @@ RSpec.feature "window", :type => :feature do
     page.find('#conversations-menu .dropdown-toggle').click
     page.find('#conversations-menu li a').click
     expect(page).to have_selector('.conversation-window')
-  end
-  before(:each) do 
-    conversation
-    create(:private_message, conversation_id: conversation.id, user_id: user.id)
   end
 
   scenario 'user opens a conversation', js: true do
