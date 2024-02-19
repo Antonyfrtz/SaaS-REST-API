@@ -1,118 +1,57 @@
 require 'rails_helper'
+require 'swagger_helper'
 
 RSpec.describe 'Todos API', type: :request do
-  # add todos owner
-  let(:user) { create(:user) }
-  let!(:todos) { create_list(:todo, 10, created_by: user.id) }
-  let(:todo_id) { todos.first.id }
-  # authorize request
-  let(:headers) { valid_headers }
+  path '/todos' do
+    post 'Creates a todo' do
+      tags 'Todos'
+      consumes 'application/json'
+      parameter name: :todo, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string },
+          created_by: { type: :integer }
+        },
+        required: ['title', 'created_by']
+      }
 
-  # initialize test data
-  let!(:todos) { create_list(:todo, 10) }
-  let(:todo_id) { todos.first.id }
-
-  # Test suite for GET /todos
-  describe 'GET /todos' do
-    # make HTTP get request before each example
-    before { get '/todos', params: {}, headers: headers }
-
-    it 'returns todos' do
-      # Note `json` is a custom helper to parse JSON responses
-      expect(json).not_to be_empty
-      expect(json.size).to eq(10)
-    end
-
-    it 'returns status code 200' do
-      expect(response).to have_http_status(200)
-    end
-  end
-
-  # Test suite for GET /todos/:id
-  describe 'GET /todos/:id' do
-    before { get "/todos/#{todo_id}", params: {}, headers: headers }
-
-    context 'when the record exists' do
-      it 'returns the todo' do
-        expect(json).not_to be_empty
-        expect(json['id']).to eq(todo_id)
+      response '201', 'todo created' do
+        let(:valid_headers) { { 'Authorization' => 'Bearer token' } }
+        let(:todo) { { title: 'Learn Elm', created_by: 1 } }
+        run_test!
       end
 
-      it 'returns status code 200' do
-        expect(response).to have_http_status(200)
-      end
-    end
-
-    context 'when the record does not exist' do
-      let(:todo_id) { 100 }
-
-      it 'returns status code 404' do
-        expect(response).to have_http_status(404)
-      end
-
-      it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Todo/)
+      response '422', 'invalid request' do
+        let(:valid_headers) { { 'Authorization' => 'Bearer token' } }
+        let(:todo) { { title: 'Foobar' } }
+        run_test!
       end
     end
   end
 
-  # Test suite for POST /todos
-  describe 'POST /todos' do
-    # valid payload
-    let(:valid_attributes) do
-      # send json payload
-      { title: 'Learn Elm', created_by: user.id.to_s }.to_json
-    end
+  path '/todos/{id}' do
+    get 'Retrieves a todo' do
+      tags 'Todos'
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :string
 
-    context 'when the request is valid' do
-      before { post '/todos', params: valid_attributes, headers: headers }
+      response '200', 'todo found' do
+        schema type: :object,
+          properties: {
+            id: { type: :integer },
+            title: { type: :string },
+            created_by: { type: :integer }
+          },
+          required: ['id', 'title', 'created_by']
 
-      it 'creates a todo' do
-        expect(json['title']).to eq('Learn Elm')
+        let(:id) { Todo.create(title: 'foo', created_by: 1).id }
+        run_test!
       end
 
-      it 'returns status code 201' do
-        expect(response).to have_http_status(201)
+      response '404', 'todo not found' do
+        let(:id) { 'invalid' }
+        run_test!
       end
-    end
-
-    context 'when the request is invalid' do
-      before { post '/todos', params: { title: 'Foobar' } }
-
-      it 'returns status code 422' do
-        expect(response).to have_http_status(422)
-      end
-
-      it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Created by can't be blank/)
-      end
-    end
-  end
-
-  # Test suite for PUT /todos/:id
-  describe 'PUT /todos/:id' do
-    let(:valid_attributes) { { title: 'Shopping' }.to_json }
-
-    context 'when the record exists' do
-      before { put "/todos/#{todo_id}", params: valid_attributes, headers: headers }
-
-      it 'updates the record' do
-        expect(response.body).to be_empty
-      end
-
-      it 'returns status code 204' do
-        expect(response).to have_http_status(204)
-      end
-    end
-  end
-
-  # Test suite for DELETE /todos/:id
-  describe 'DELETE /todos/:id' do
-    before { delete "/todos/#{todo_id}", params: {}, headers: headers }
-
-    it 'returns status code 204' do
-      expect(response).to have_http_status(204)
     end
   end
 end
