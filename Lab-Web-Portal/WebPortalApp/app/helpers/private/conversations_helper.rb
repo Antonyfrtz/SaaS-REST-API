@@ -115,12 +115,6 @@ module Private::ConversationsHelper
       contacts.delete_if {|contact| contact.id == recipient.id }
     end
 
-    def create_group_conv_partial_path(contact)
-      if recipient_is_contact?
-        'private/conversations/conversation/heading/create_group_conversation'
-      else
-        'shared/empty_partial'
-      end
-    end
+    
   
   end
