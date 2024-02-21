@@ -1,0 +1,266 @@
+openapi: 3.0.1
+info:
+  title: TODO REST API Documentation
+  version: 1.0.0
+tags:
+  - name: Authentication
+    description: Endpoints for user authentication
+  - name: Todos
+    description: Endpoints for managing todos and todo items
+paths:
+  /signup:
+    post:
+      summary: Signup
+      tags:
+        - Authentication
+      description: Registers a new user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+      responses:
+        '201':
+          description: Signup successful
+        '422':
+          description: Invalid username or password
+  /auth/login:
+    post:
+      summary: Login
+      tags:
+        - Authentication
+      description: Logs in an existing user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Unauthorized, invalid username or password
+  /auth/logout:
+    get:
+      summary: Logout
+      tags:
+        - Authentication
+      description: Logs out the current user.
+      responses:
+        '200':
+          description: Logout successful
+  /todos:
+    get:
+      summary: Get todos
+      tags:
+        - Todos
+      description: Retrieves all todos.
+      parameters:
+        - in: head
+          name: page
+          schema:
+            type: integer
+          description: The page number of results to retrieve.
+        - in: head
+          name: Accept
+          schema:
+            type: string
+          required: true
+          description: Specify the desired media type for the response.
+          example: application/vnd.todos.v1+json
+        - in: head
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Access token for authorization.
+          example: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3MDg1MjI2Njh9.IGovnPdEjKAQ_WkrLfepRVwcyk_9CtJ7LpHmvLwbU1w
+      responses:
+        '200':
+          description: List of todos retrieved successfully
+          application/json:
+              schema:
+                type: array
+                
+        '422':
+          description: Unprocessable Content
+    post:
+      summary: Create a new todo
+      tags:
+        - Todos
+      description: Creates a new todo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        '201':
+          description: Todo created
+        '422':
+          description: Invalid request, title is required
+  /todos/{id}:
+    get:
+      summary: Get a todo
+      tags:
+        - Todos
+      description: Retrieves a specific todo by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Todo found
+        '404':
+          description: Todo not found
+    put:
+      summary: Update a todo
+      tags:
+        - Todos
+      description: Updates a specific todo by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+              required:
+                - title
+      responses:
+        '200':
+          description: Todo updated
+        '404':
+          description: Todo not found
+    delete:
+      summary: Delete a todo and its items
+      tags:
+        - Todos
+      description: Deletes a specific todo and its items by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Todo deleted successfully
+        '404':
+          description: Todo not found
+  /todos/{id}/items/{iid}:
+    get:
+      summary: Get a todo item
+      tags:
+        - Todos
+      description: Retrieves a specific todo item by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: iid
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Todo item found
+        '404':
+          description: Todo item not found
+    put:
+      summary: Update a todo item
+      tags:
+        - Todos
+      description: Updates a specific todo item by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: iid
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                done:
+                  type: boolean
+              required:
+                - name
+                - done
+      responses:
+        '200':
+          description: Todo item updated
+        '404':
+          description: Todo item not found
+    delete:
+      summary: Delete a todo item
+      tags:
+        - Todos
+      description: Deletes a specific todo item by ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: iid
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Todo item deleted successfully
+        '404':
+          description: Todo item not found
