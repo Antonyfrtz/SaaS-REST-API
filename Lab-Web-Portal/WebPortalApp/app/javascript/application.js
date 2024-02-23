@@ -13,5 +13,6 @@ import "./conversations/conversation.js"
 import "./messages/position_and_visibility"
 import "./messages/toggle_window"
 import "./messages/messages_infinite_scroll.js"
+import "./conversations/options.js"
 //= require jquery
 //= require bootstrap-sprocketsimport "channels"
