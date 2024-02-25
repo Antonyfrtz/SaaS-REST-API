@@ -5,10 +5,11 @@ class Group::MessageBroadcastJob < ApplicationJob
     # broadcast message to all conversation's participants
     conversation_id = message.conversation_id
     ActionCable.server.broadcast(
-      "group_conversation_#{conversation_id}",
+      "group_conversation_#{conversation_id}",{
       message: render_message(message, previous_message),
       conversation_id: conversation_id,
       user_id: message.user_id
+      }
     )
   end
 
