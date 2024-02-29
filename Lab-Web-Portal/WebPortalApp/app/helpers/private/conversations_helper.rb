@@ -109,5 +109,4 @@ module Private::ConversationsHelper
       contact['user_id'] == current_user.id
     end
   
-  
   end

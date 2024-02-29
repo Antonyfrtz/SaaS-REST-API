@@ -21,10 +21,7 @@ RSpec.feature "window", :type => :feature do
 
   scenario 'user closes open conversations', js: true do 
     open_window
-    # Keep closing conversations while .close-conversation element is detected
-    while page.has_selector?('.close-conversation')
-      page.find('.close-conversation').click
-    end
+    page.find('.close-conversation').click
     # Assert that the .close-conversation element is no longer present
     expect(page).not_to have_selector('.close-conversation')
   end
