@@ -8,5 +8,11 @@
                 open_private_conversation_path(id: conversation.id), 
                 remote: true, 
                 method: :post,
-                class: 'bigger-screen-link' %>          
+                class: 'bigger-screen-link' %>     
+
+    <%= link_to recipient.name, 
+                open_messenger_path(id: recipient.id, 
+                                        smaller_device: true, 
+                                        type: 'private'), 
+                class: 'smaller-screen-link' %>                          
 </li>

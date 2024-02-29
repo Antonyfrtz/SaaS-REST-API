@@ -46,6 +46,7 @@ function hideShowChatWindow() {
     var offset = $('.conversation-window:nth-of-type(' + gon.last_visible_chat_window + ')').offset();
     // if the left offset of the conversation window is less than 50, 
     // hide this conversation window
+    console.log('Selector:', '.conversation-window:nth-of-type(' + gon.last_visible_chat_window + ')');
     if (offset.left < 50 && gon.last_visible_chat_window !== 1) {
         $('.conversation-window:nth-of-type(' + gon.last_visible_chat_window + ')')
             .css('display', 'none');

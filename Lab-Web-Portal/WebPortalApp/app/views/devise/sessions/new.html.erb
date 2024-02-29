@@ -2,29 +2,40 @@
   <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
       <h2 class="text-center">Log in</h2>
+<%= bootstrap_form_for(resource, 
+                       as: resource_name, 
+                       url: session_path(resource_name)) do |f| %>
 
-      <%= bootstrap_form_for(resource, 
-                            as: resource_name, 
-                            url: session_path(resource_name)) do |f| %>
+    <%= f.email_field :email, 
+                      autofocus: true, 
+                      class: 'form-control', 
+                      placeholder: 'email' %>
 
-          <%= f.email_field :email, 
-                            autofocus: true, 
-                            class: 'form-control', 
-                            placeholder: 'email' %>
-
-          <%= f.password_field  :password, 
-                                autocomplete: "off", 
-                                class: 'form-control',
-                                placeholder: 'password' %>
+    <%= f.password_field  :password, 
+                          autocomplete: "off", 
+                          class: 'form-control',
+                          placeholder: 'password' %>
 
 
-        <% if devise_mapping.rememberable? -%>
-          <%= f.check_box :remember_me %>
-        <% end -%>
+  <% if devise_mapping.rememberable? -%>
+     <%= f.check_box :remember_me %>
+  <% end -%>
 
-        <%= f.submit "Log in", class: 'form-control login-button' %>
+   <%= f.submit "Log in", class: 'form-control login-button' %>
+   <div style="text-align: center;">
+<% end %> <br><br>
+<% if devise_mapping.omniauthable? %>
+    <% resource_class.omniauth_providers.each do |provider| %>
+      <%= form_for "Login",
+        url: omniauth_authorize_path(resource_name, provider), 
+        method: :post,
+        data: {turbo: "false"} do |f| %>
+          <%= f.submit "Login", type: "image", src: url_for("/assets/google_auth.png") %>
       <% end %>
-      
+    <% end %>
+  <% end %>
+</div>
     </div>
-  </div> 
+   </div> 
+
 </div>
