@@ -21,7 +21,10 @@ gem 'will_paginate', '~> 3.3'
 
 gem 'gon', '~> 6.1'
 
+# auth
+gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem 'dotenv-rails', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
